@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.yaoshan.product.mapper.ProductMapper">
+
+    <select id="selectProductList" resultType="com.example.yaoshan.model.Product">
+        SELECT * FROM product WHERE status = 1
+        <if test="query.categoryId != null and query.categoryId > 0">
+            AND category_id = #{query.categoryId}
+        </if>
+        <if test="query.keyword != null and query.keyword != ''">
+            AND (name LIKE CONCAT('%', #{query.keyword}, '%') OR description LIKE CONCAT('%', #{query.keyword}, '%'))
+        </if>
+        ORDER BY sales DESC, create_time DESC
+    </select>
+
+    <select id="selectByCategoryId" resultType="com.example.yaoshan.model.Product">
+        SELECT * FROM product WHERE status = 1 AND category_id = #{categoryId}
+        ORDER BY sales DESC, create_time DESC
+    </select>
+
+    <select id="selectById" resultType="com.example.yaoshan.model.Product">
+        SELECT * FROM product WHERE id = #{id}
+    </select>
+
+    <update id="decreaseStock">
+        UPDATE product SET stock = stock - #{num} WHERE id = #{id} AND stock >= #{num}
+    </update>
+</mapper>
