@@ -14,6 +14,8 @@ import java.util.Date;
 @TableName("likes")
 public class Like {
     @TableId(type = IdType.AUTO)
+    // 主键
+    
     private Long id;         // 点赞ID
     private String openid;   // 用户openid
     private Long targetId;   // 目标ID（帖子ID或评论ID）
